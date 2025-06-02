@@ -10,7 +10,6 @@ pipeline {
     }
     environment {
         AWS_DEFAULT_REGION = 'ap-south-1'
-        #TF_VAR_region = 'us-east-1'
     }
     stages {
         stage('Checkout') {
