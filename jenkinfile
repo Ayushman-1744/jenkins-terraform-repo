@@ -14,28 +14,23 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Terraform Plan with AWS') {
+        stage('Setup and Terraform Operations') {
             steps {
                 withAWS(credentials: '88947dd9-eb81-4f9e-bd06-e8d95b5fa485', region: "${env.AWS_DEFAULT_REGION}") {
                     script {
-                        echo "Using AWS Credentials"
+                        // Checkout Code
+                        checkout scm
 
-                        // Initialize Terraform
+                        // Terraform Init
                         sh 'terraform init'
 
-                        // Check formatting
+                        // Terraform Format Check
                         sh 'terraform fmt -check'
 
-                        // Validate config
+                        // Terraform Validate
                         sh 'terraform validate'
 
-                        // Plan based on user action
+                        // Terraform Plan
                         if (params.TERRAFORM_ACTION == 'apply') {
                             sh 'terraform plan -out=tfplan'
                         } else if (params.TERRAFORM_ACTION == 'destroy') {
@@ -46,14 +41,12 @@ pipeline {
             }
         }
 
-        stage('Terraform Apply/Destroy') {
+        stage('Terraform Execute') {
             steps {
                 input message: "Do you want to proceed with ${params.TERRAFORM_ACTION}?"
                 withAWS(credentials: '88947dd9-eb81-4f9e-bd06-e8d95b5fa485', region: "${env.AWS_DEFAULT_REGION}") {
                     script {
-                        if (params.TERRAFORM_ACTION == 'apply' || params.TERRAFORM_ACTION == 'destroy') {
-                            sh 'terraform apply tfplan'
-                        }
+                        sh 'terraform apply tfplan'
                     }
                 }
             }
