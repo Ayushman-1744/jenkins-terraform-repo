@@ -20,11 +20,7 @@ pipeline {
             }
         }
 
-        stage('Terraform with AWS Credentials') {
-            environment {
-                // Optional: Expose AWS creds as env variables for Terraform CLI
-                // AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY can be used internally
-            }
+        stage('Terraform Plan with AWS') {
             steps {
                 withAWS(credentials: '88947dd9-eb81-4f9e-bd06-e8d95b5fa485', region: "${env.AWS_DEFAULT_REGION}") {
                     script {
@@ -39,7 +35,7 @@ pipeline {
                         // Validate config
                         sh 'terraform validate'
 
-                        // Create plan based on user action
+                        // Plan based on user action
                         if (params.TERRAFORM_ACTION == 'apply') {
                             sh 'terraform plan -out=tfplan'
                         } else if (params.TERRAFORM_ACTION == 'destroy') {
