@@ -8,12 +8,12 @@ pipeline {
         }
         stage('Test') { 
             steps {
-            echo "stage-2"
+            echo "Pre-final success"
             }
         }
         stage('Deploy') { 
             steps {
-                echo "stage-3"
+                echo "CI/CD final"
             }
         }
     }
