@@ -15,7 +15,7 @@
         stage('Deploy') { 
             steps {
                 echo "CI/CD final"
-                echo "dry run of CI/CD1"
+                echo "dry run of CI/CD"
             }
         }
     }
