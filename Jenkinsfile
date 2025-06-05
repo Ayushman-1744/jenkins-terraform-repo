@@ -1,4 +1,4 @@
-pipeline {
+o pipeline {
     agent any 
     stages {
         stage('Build') { 
@@ -15,6 +15,7 @@ pipeline {
         stage('Deploy') { 
             steps {
                 echo "CI/CD final"
+                echo "dry run of CI/CD"
             }
         }
     }
