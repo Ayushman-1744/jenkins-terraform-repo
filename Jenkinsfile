@@ -4,7 +4,8 @@
         stage('Build') { 
             steps {
                 echo "stage-1"
-                echo "webhook working1"
+                echo "webhook working"
+                echo "Got it just now"
             }
         }
         stage('Test') { 
