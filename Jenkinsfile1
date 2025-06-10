@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        AWS_CREDENTIALS_ID = credential '' // Replace with AWS credentials in jenkins manage
+        AWS_CREDENTIALS_ID = credential '25aad397-e421-4083-be9e-2875d919c9d6' // Replace with AWS credentials in jenkins manage
     }
 
     parameters {
