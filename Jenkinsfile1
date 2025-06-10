@@ -2,17 +2,17 @@ pipeline {
     agent label ''
 
     environment {
-        AWS_CREDENTIALS_ID = credential 'a311da75-cd0f-4d05-ad92-d8db352a7972' // Replace with AWS credentials in jenkins manage
+       AWS_CREDENTIALS_ID = credentials'a311da75-cd0f-4d05-ad92-d8db352a7972'  // Replace with actual AWS credential ID
     }
 
     parameters {
-        choice(name: 'Action', choices: ['apply','destroy'], description: 'Choose Terraform action')
+        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Choose Terraform action')
     }
 
     stages {
         stage('Checkout SCM') {
             steps {
-                git branch: 'main', url: 'https://github.com/Ayushman-1744/jenkins-terraform-repo.git'
+                git branch: 'main', url: 'https://github.com/harris-97/jenkins-terraform-test.git'
             }
         }
 
@@ -27,16 +27,17 @@ pipeline {
                 sh 'terraform plan -out=tfplan'
             }
         }
+
         stage('Apply or Destroy') {
             steps {
                 script {
-                    if(params.Action == 'apply') {
+                    if (params.ACTION == 'apply') {
                         sh 'terraform apply -auto-approve tfplan'
                     } else {
                         sh 'terraform destroy -auto-approve'
-                    }
                     }
                 }
             }
         }
     }
+}
